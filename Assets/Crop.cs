@@ -1,0 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class Crop : MonoBehaviour
+{
+    public float waterTimer;
+    public bool hasCrop;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        waterTimer -= Time.deltaTime;
+        if (waterTimer <= 0)
+        {
+
+        }
+    }
+}
