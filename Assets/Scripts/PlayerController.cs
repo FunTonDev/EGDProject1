@@ -8,7 +8,9 @@ public class PlayerController : MonoBehaviour
      * ALL THIS IS STARTER/SCRATCH CODE
      * USE/CHANGE/DELETE AS YOU WISH
      */
-     //Rigid body of the player character
+    //Current stage manager
+    private StageManager mani;
+    //Rigid body of the player character
     private Rigidbody2D playerRB;
     //Speed that the player moves at horizontally
     public float playerSpeed;
@@ -17,10 +19,30 @@ public class PlayerController : MonoBehaviour
     private float playerDirection;
     //Whether the player is on the ground or not
     private bool grounded;
+    //Whether the player is colliding with a crop
+    private bool onCrop;
+    //The crop the player is colliding with
+    private GameObject currentCrop;
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Crop")
+        {
+            onCrop = true;
+            currentCrop = collision.gameObject;
+        }
+        else
+        {
+            onCrop = false;
+            currentCrop = null;
+        }
+    }
 
     private void Start()
     {
         playerRB = GetComponent<Rigidbody2D>();
+        GameObject temp = GameObject.FindGameObjectWithTag("Manager");
+        mani = temp.GetComponent<StageManager>();
         //playerSpeed = 5.0f;
         playerDirection = 1.0f;
         grounded = true;
@@ -51,6 +73,13 @@ public class PlayerController : MonoBehaviour
         if (Input.GetAxisRaw("Vertical") < 0)
         {
             //INTERACT
+            if (onCrop && playerRB.velocity.y == 0 && currentCrop.GetComponent<Crop>().hasCrop)
+            {
+                currentCrop.GetComponent<Crop>().removeCrop();
+                mani.score += 100;
+                mani.updateScore();
+            }
+            
             Debug.Log("Should interact");
         }
         if (playerRB.velocity.y == 0)

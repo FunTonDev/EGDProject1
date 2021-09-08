@@ -21,6 +21,7 @@ public class Crop : MonoBehaviour
     {
         waterTimerMax = 5;
         waterTimer = 5;
+        removeCrop();
     }
 
     //Give the plot of land a crop
@@ -29,6 +30,15 @@ public class Crop : MonoBehaviour
         hasCrop = true;
         plot.color = new Color(0.0f, 1.0f, 0.0f);
         waterTimer = 5;
+        waterBar.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    public void removeCrop()
+    {
+        hasCrop = false;
+        plot.color = new Color(1.0f, 0.5f, 0.0f);
+        waterTimer = 5;
+        waterBar.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
     }
 
     // Update is called once per frame
