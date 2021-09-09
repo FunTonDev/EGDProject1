@@ -11,6 +11,8 @@ public class Crop : MonoBehaviour
     public float waterTimerMax;
     //Whether the plot has a crop or not
     public bool hasCrop;
+    //The stage the crop is at (0 == not planted, 1 == seedling, 2 == sprout, 3 == mature, 4 == withered)
+    public int cropLevel;
     //The image tied to the plot of land
     public SpriteRenderer plot;
     //A bar to show how much time is left to water the crop
@@ -19,8 +21,8 @@ public class Crop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        waterTimerMax = 5;
-        waterTimer = 5;
+        waterTimerMax = 10;
+        waterTimer = 10;
         removeCrop();
     }
 
@@ -28,17 +30,37 @@ public class Crop : MonoBehaviour
     public void getCrop()
     {
         hasCrop = true;
+        if (cropLevel < 3) cropLevel += 1;
+        if (cropLevel == 1)
+        {
+            
+        }
+        else if (cropLevel == 2)
+        {
+
+        }
+        else if (cropLevel == 3)
+        {
+
+        }
         plot.color = new Color(0.0f, 1.0f, 0.0f);
-        waterTimer = 5;
+        waterTimer = 10;
         waterBar.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     //Remove crop from plot of land
     public void removeCrop()
     {
-        hasCrop = false;
+        if (cropLevel < 3)
+        {
+            hasCrop = false;
+        }
+        else
+        {
+            cropLevel = 4;
+        }
         plot.color = new Color(1.0f, 0.5f, 0.0f);
-        waterTimer = 5;
+        waterTimer = 10;
         waterBar.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
     }
 
