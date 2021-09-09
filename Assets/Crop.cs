@@ -24,7 +24,7 @@ public class Crop : MonoBehaviour
         removeCrop();
     }
 
-    //Give the plot of land a crop
+    //Give the plot of land a crop (and change appearance)
     public void getCrop()
     {
         hasCrop = true;
@@ -33,6 +33,7 @@ public class Crop : MonoBehaviour
         waterBar.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
+    //Remove crop from plot of land
     public void removeCrop()
     {
         hasCrop = false;

@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    /*
-     * ALL THIS IS STARTER/SCRATCH CODE
-     * USE/CHANGE/DELETE AS YOU WISH
-     */
     //Current stage manager
     private StageManager mani;
     //Rigid body of the player character
@@ -16,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed;
     //Force the player jumps up with
     public float jumpForce;
-    private float playerDirection;
+    //private float playerDirection;
     //Whether the player is on the ground or not
     private bool grounded;
     //Whether the player is colliding with a crop
@@ -26,6 +22,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        //If player is on crop space, set current crop to interact with
         if (collision.gameObject.tag == "Crop")
         {
             onCrop = true;
@@ -43,8 +40,7 @@ public class PlayerController : MonoBehaviour
         playerRB = GetComponent<Rigidbody2D>();
         GameObject temp = GameObject.FindGameObjectWithTag("Manager");
         mani = temp.GetComponent<StageManager>();
-        //playerSpeed = 5.0f;
-        playerDirection = 1.0f;
+        //playerDirection = 1.0f;
         grounded = true;
     }
 
@@ -54,14 +50,10 @@ public class PlayerController : MonoBehaviour
         float mover = Input.GetAxisRaw("Horizontal");
         mover = mover * playerSpeed;
         playerRB.velocity = new Vector2(mover, playerRB.velocity.y);
-        //playerRB.velocity = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical")).normalized * playerSpeed;
     }
 
     private void Update()
     {
-        //playerDirection = (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A)) ? -1.0f : playerDirection;
-        //playerDirection = (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D)) ? 1.0f : playerDirection;
-
         //JUMP
         if (Input.GetAxisRaw("Vertical") > 0 && grounded)
         {
@@ -75,13 +67,13 @@ public class PlayerController : MonoBehaviour
             //INTERACT
             if (onCrop && playerRB.velocity.y == 0 && currentCrop.GetComponent<Crop>().hasCrop)
             {
+                //If interact with a plot of land that has a crop, perform operation and gain points
                 currentCrop.GetComponent<Crop>().removeCrop();
                 mani.score += 100;
                 mani.updateScore();
             }
-            
-            Debug.Log("Should interact");
         }
+        //If player isn't moving up or down, they are on the ground
         if (playerRB.velocity.y == 0)
         {
             grounded = true;
