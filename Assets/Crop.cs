@@ -45,7 +45,8 @@ public class Crop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        waterTimer -= Time.deltaTime;
+        if (waterTimer > 0)
+            waterTimer -= Time.deltaTime;
         waterBar.fillAmount = waterTimer / waterTimerMax;
         if (waterTimer <= 0 && hasCrop)
         {
