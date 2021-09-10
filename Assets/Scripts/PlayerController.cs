@@ -9,6 +9,8 @@ public class PlayerController : MonoBehaviour
     private StageManager mani;
     //Rigid body of the player character
     private Rigidbody2D playerRB;
+    //Collider of the player character
+    private Collider2D playerCollider;
     //Speed that the player moves at horizontally
     public float playerSpeed;
     //Force the player jumps up with
@@ -28,27 +30,36 @@ public class PlayerController : MonoBehaviour
     //UI Bar to display water tank amount
     public Image waterBar;
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log(collision.gameObject.tag);
         //If player is on crop space, set current crop to interact with
-        if (collision.gameObject.tag == "Crop")
-        {
+        if (collision.gameObject.tag == "Crop") {
             onCrop = true;
             currentCrop = collision.gameObject;
         }
-        else
-        {
+        //If player is on a watering hole, set bool to true
+        if (collision.gameObject.tag == "WaterHole") {
+            onWater = true;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision) {
+        //If player is on crop space, set current crop to interact with
+        if (collision.gameObject.tag == "Crop") {
             onCrop = false;
             currentCrop = null;
         }
         //If player is on a watering hole, set bool to true
-        if (collision.gameObject.tag == "WaterHole")    {    onWater = true;    }
-        else    {   onWater = false;    }
+        if (collision.gameObject.tag == "WaterHole") {
+            onWater = false;
+        }
     }
 
     private void Start()
     {
         playerRB = GetComponent<Rigidbody2D>();
+        playerCollider = GetComponent<Collider2D>();
         GameObject temp = GameObject.FindGameObjectWithTag("Manager");
         mani = temp.GetComponent<StageManager>();
         //playerDirection = 1.0f;
@@ -59,22 +70,20 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        //JUMP
+        if (Input.GetAxisRaw("Vertical") > 0 && grounded) {
+            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+        }
+
         //Get movement input in the horizontal axis, multiply by speed, and move that amount
         float mover = Input.GetAxisRaw("Horizontal");
         mover = mover * playerSpeed;
         playerRB.velocity = new Vector2(mover, playerRB.velocity.y);
-        waterBar.fillAmount = waterTank;
 
     }
 
     private void Update()
     {
-        //JUMP
-        if (Input.GetAxisRaw("Vertical") > 0 && grounded)
-        {
-            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
-            grounded = false;
-        }
 
         //INTERACT
         if (Input.GetAxisRaw("Vertical") < 0)
@@ -95,10 +104,10 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("Refilled");
             }
         }
-        //If player isn't moving up or down, they are on the ground
-        if (playerRB.velocity.y == 0)
-        {
-            grounded = true;
-        }
+        //Check if the player is grounded
+        RaycastHit2D groundCheck = Physics2D.Raycast(playerCollider.bounds.center + Vector3.down * playerCollider.bounds.size.y / 2, Vector3.down, Mathf.Infinity, 1 << 0);
+        grounded = groundCheck.collider != null && groundCheck.distance < 0.015f;
+
+        waterBar.fillAmount = waterTank;
     }
 }
