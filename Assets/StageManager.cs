@@ -17,14 +17,7 @@ public class StageManager : MonoBehaviour
     {
         scoreText.text = "Score: 000";
         plots = GameObject.FindGameObjectsWithTag("Crop");
-        if (plots.Length > 1)
-        {
-            plots[Random.Range(0,plots.Length)].GetComponent<Crop>().getCrop();
-        }
-        else
-        {
-            plots[0].GetComponent<Crop>().getCrop();
-        }
+        plots[Random.Range(0,plots.Length)].GetComponent<Crop>().nextGrowthStage();
     }
 
     public void updateScore()

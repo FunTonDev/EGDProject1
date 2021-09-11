@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 430130051355016835}
   - component: {fileID: 430130051355016834}
   - component: {fileID: 430130051355016832}
+  - component: {fileID: 5897040459914235232}
   m_Layer: 0
   m_Name: CropYellow
   m_TagString: Crop
@@ -95,14 +96,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60eed15951e4ab34dac4b8164b4f512d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnTimer: 0
+  spawnTimerMax: 0
   waterTimer: 0
   waterTimerMax: 0
   hasCrop: 0
   cropLevel: 0
-  plot: {fileID: 430130051355016834}
   stage0: {fileID: 21300000, guid: 8b2da0207850e51489f01fb2b191cee4, type: 3}
   stage1: {fileID: 21300000, guid: 8b2da0207850e51489f01fb2b191cee4, type: 3}
   stage2: {fileID: 21300000, guid: 82d871557158d244e833f7f2dc93e87e, type: 3}
   stage3: {fileID: 21300000, guid: 6755f267d7b482244be668f24719bb04, type: 3}
   stage4: {fileID: 21300000, guid: 274499296d6d06748b7de15f388f7aba, type: 3}
-  waterBar: {fileID: 0}
+  waterBarPrefab: {fileID: 6715710419544975429, guid: 892a34e99a6f2de4dac291735667bfbd, type: 3}
+  canvas: {fileID: 0}
+--- !u!61 &5897040459914235232
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 430130051355016837}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0

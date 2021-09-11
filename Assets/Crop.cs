@@ -18,7 +18,7 @@ public class Crop : MonoBehaviour
     //The stage the crop is at (0 == not planted, 1 == seedling, 2 == sprout, 3 == mature, 4 == withered)
     public int cropLevel;
     //The image tied to the plot of land
-    public SpriteRenderer plot;
+    private SpriteRenderer plot;
 
     //Sprites to match the crops level
     public Sprite stage0;
@@ -27,21 +27,30 @@ public class Crop : MonoBehaviour
     public Sprite stage3;
     public Sprite stage4;
 
-    //A bar to show how much time is left to water the crop
-    public Image waterBar;
+    //Prefab for water bar
+    public GameObject waterBarPrefab;
+
+    //Canvas to use for water bar
+    public Canvas canvas;
+
+    //Water bar image
+    private Image waterBar;
 
     // Start is called before the first frame update
     void Start()
     {
-        spawnTimer = 5;
-        spawnTimerMax = 5;
-        waterTimerMax = 10;
-        waterTimer = 10;
+        plot = GetComponent<SpriteRenderer>();
+
+        GameObject waterBarObj = Instantiate(waterBarPrefab);
+        waterBarObj.transform.SetParent(canvas.transform);
+        waterBarObj.transform.position = GetComponent<Transform>().position + Vector3.up * 0.5f;
+        waterBar = waterBarObj.GetComponent<Image>();
+
         removeCrop();
     }
 
     //Give the plot of land a crop (and change appearance)
-    public void getCrop()
+    public void nextGrowthStage()
     {
         hasCrop = true;
         if (cropLevel < 3) cropLevel += 1;
@@ -58,7 +67,6 @@ public class Crop : MonoBehaviour
         {
             plot.sprite = stage3;
         }
-        //plot.color = new Color(0.0f, 1.0f, 0.0f);
         waterTimer = 10;
         waterBar.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -83,7 +91,6 @@ public class Crop : MonoBehaviour
         {
             plot.sprite = stage4;
         }
-        //plot.color = new Color(1.0f, 0.5f, 0.0f);
         waterTimer = 10;
         waterBar.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
     }
@@ -97,7 +104,7 @@ public class Crop : MonoBehaviour
         }
         if (spawnTimer <= 0 && !hasCrop)
         {
-            getCrop();
+            nextGrowthStage();
         }
         if (waterTimer > 0 && hasCrop)
             waterTimer -= Time.deltaTime;
