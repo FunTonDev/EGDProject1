@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class Crop : MonoBehaviour
 {
+    //Amount of time for the plant to spawn back into the game
+    public float spawnTimer;
     //The amount of time left to water the plot
     public float waterTimer;
     //Max amount of time
@@ -15,12 +17,21 @@ public class Crop : MonoBehaviour
     public int cropLevel;
     //The image tied to the plot of land
     public SpriteRenderer plot;
+
+    //Sprites to match the crops level
+    public Sprite stage0;
+    public Sprite stage1;
+    public Sprite stage2;
+    public Sprite stage3;
+    public Sprite stage4;
+
     //A bar to show how much time is left to water the crop
     public Image waterBar;
 
     // Start is called before the first frame update
     void Start()
     {
+        spawnTimer = 5;
         waterTimerMax = 10;
         waterTimer = 10;
         removeCrop();
@@ -33,17 +44,17 @@ public class Crop : MonoBehaviour
         if (cropLevel < 3) cropLevel += 1;
         if (cropLevel == 1)
         {
-            
+            plot.sprite = stage1;
         }
         else if (cropLevel == 2)
         {
-
+            plot.sprite = stage2;
         }
         else if (cropLevel == 3)
         {
-
+            plot.sprite = stage3;
         }
-        plot.color = new Color(0.0f, 1.0f, 0.0f);
+        //plot.color = new Color(0.0f, 1.0f, 0.0f);
         waterTimer = 10;
         waterBar.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
     }
@@ -57,9 +68,9 @@ public class Crop : MonoBehaviour
         }
         else
         {
-            cropLevel = 4;
+            plot.sprite = stage4;
         }
-        plot.color = new Color(1.0f, 0.5f, 0.0f);
+        //plot.color = new Color(1.0f, 0.5f, 0.0f);
         waterTimer = 10;
         waterBar.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
     }
@@ -67,7 +78,8 @@ public class Crop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (waterTimer > 0)
+        
+        if (waterTimer > 0 && hasCrop)
             waterTimer -= Time.deltaTime;
         waterBar.fillAmount = waterTimer / waterTimerMax;
         if (waterTimer <= 0 && hasCrop)

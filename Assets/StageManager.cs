@@ -19,14 +19,7 @@ public class StageManager : MonoBehaviour
         plots = GameObject.FindGameObjectsWithTag("Crop");
         if (plots.Length > 1)
         {
-            for (int i = 0; i < plots.Length; i++)
-            {
-                int rando = Random.Range(0, 5);
-                if (rando <= 1)
-                {
-                    plots[i].GetComponent<Crop>().getCrop();
-                }
-            }
+            plots[Random.Range(0,plots.Length)].GetComponent<Crop>().getCrop();
         }
         else
         {
