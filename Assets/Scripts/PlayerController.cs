@@ -92,9 +92,9 @@ public class PlayerController : MonoBehaviour
             if (onCrop && playerRB.velocity.y == 0 && currentCrop.GetComponent<Crop>().hasCrop && waterTank > 0)
             {
                 //If interact with a plot of land that has a crop, perform operation and gain points
-                currentCrop.GetComponent<Crop>().removeCrop();
                 mani.score += 100;
                 mani.updateScore();
+                currentCrop.GetComponent<Crop>().scoreCrop();
                 waterTank -= 0.2f;
             }
             //INTERACT with watering hole

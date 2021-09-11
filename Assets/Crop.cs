@@ -7,6 +7,8 @@ public class Crop : MonoBehaviour
 {
     //Amount of time for the plant to spawn back into the game
     public float spawnTimer;
+    //Max amount of time to spawn
+    public float spawnTimerMax;
     //The amount of time left to water the plot
     public float waterTimer;
     //Max amount of time
@@ -32,6 +34,7 @@ public class Crop : MonoBehaviour
     void Start()
     {
         spawnTimer = 5;
+        spawnTimerMax = 5;
         waterTimerMax = 10;
         waterTimer = 10;
         removeCrop();
@@ -42,6 +45,7 @@ public class Crop : MonoBehaviour
     {
         hasCrop = true;
         if (cropLevel < 3) cropLevel += 1;
+        else cropLevel -= 1;
         if (cropLevel == 1)
         {
             plot.sprite = stage1;
@@ -57,6 +61,15 @@ public class Crop : MonoBehaviour
         //plot.color = new Color(0.0f, 1.0f, 0.0f);
         waterTimer = 10;
         waterBar.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+    
+    //Make water bar disappear above crop
+    public void scoreCrop()
+    {
+        waterTimerMax = 10;
+        hasCrop = false;
+        spawnTimer = spawnTimerMax;
+        waterBar.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
     }
 
     //Remove crop from plot of land
@@ -78,7 +91,14 @@ public class Crop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (!hasCrop)
+        {
+            spawnTimer -= Time.deltaTime;
+        }
+        if (spawnTimer <= 0 && !hasCrop)
+        {
+            getCrop();
+        }
         if (waterTimer > 0 && hasCrop)
             waterTimer -= Time.deltaTime;
         waterBar.fillAmount = waterTimer / waterTimerMax;
