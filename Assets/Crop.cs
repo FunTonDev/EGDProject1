@@ -68,7 +68,7 @@ public class Crop : MonoBehaviour
             plot.sprite = stage3;
         }
         waterTimer = 10;
-        waterBar.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        waterBar.color = new Color(0.0f, 1.0f, 1.0f, 1.0f);
     }
     
     //Make water bar disappear above crop
@@ -77,7 +77,7 @@ public class Crop : MonoBehaviour
         waterTimerMax = 10;
         hasCrop = false;
         spawnTimer = spawnTimerMax;
-        waterBar.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        waterBar.color = new Color(0.0f, 1.0f, 1.0f, 0.0f);
     }
 
     //Remove crop from plot of land
@@ -92,7 +92,7 @@ public class Crop : MonoBehaviour
             plot.sprite = stage4;
         }
         waterTimer = 10;
-        waterBar.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        waterBar.color = new Color(0.0f, 1.0f, 1.0f, 0.0f);
     }
 
     // Update is called once per frame
