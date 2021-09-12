@@ -4901,12 +4901,20 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1139992043}
+    - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: waterBar
       value: 
       objectReference: {fileID: 2064881192}
     - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: jumpForce
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457856850466862654, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: m_FlipX
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862654, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: m_Sprite

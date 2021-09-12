@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     //UI Bar to display water tank amount
     public Image waterBar;
 
+    public Animator animator;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(collision.gameObject.tag);
@@ -73,24 +75,39 @@ public class PlayerController : MonoBehaviour
         //JUMP
         if (Input.GetAxisRaw("Vertical") > 0 && grounded) {
             playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+            animator.SetBool("isJumping", true);
         }
 
         //Get movement input in the horizontal axis, multiply by speed, and move that amount
         float mover = Input.GetAxisRaw("Horizontal");
         mover = mover * playerSpeed;
         playerRB.velocity = new Vector2(mover, playerRB.velocity.y);
+        animator.SetFloat("PlayerSpeed", Mathf.Abs(playerRB.velocity.x));
 
+        if (mover != 0)
+        {
+            animator.SetBool("Watering", false);
+            animator.SetBool("Refilling", false);
+            if (mover > 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = true;
+            }
+            else if (mover < 0)
+            {
+                GetComponent<SpriteRenderer>().flipX = false;
+            }
+        }
     }
 
     private void Update()
     {
-
         //INTERACT
         if (Input.GetAxisRaw("Vertical") < 0)
         {
             //INTERACT with crop while having water
             if (onCrop && playerRB.velocity.y == 0 && currentCrop.GetComponent<Crop>().hasCrop && waterTank > 0)
             {
+                animator.SetBool("Watering", true);
                 //If interact with a plot of land that has a crop, perform operation and gain points
                 mani.score += 100;
                 mani.updateScore();
@@ -100,14 +117,15 @@ public class PlayerController : MonoBehaviour
             //INTERACT with watering hole
             else if (onWater && playerRB.velocity.y == 0)
             {
+                animator.SetBool("Refilling", true);
                 waterTank = waterTankMax;
-                Debug.Log("Refilled");
             }
         }
 
         //Check if the player is grounded
         RaycastHit2D groundCheck = Physics2D.Raycast(playerCollider.bounds.center + Vector3.down * playerCollider.bounds.size.y / 2, Vector3.down, Mathf.Infinity, 1 << 0);
         grounded = groundCheck.collider != null && groundCheck.distance < 0.015f;
+        if (grounded) animator.SetBool("isJumping", false);
 
         waterBar.fillAmount = waterTank;
     }
