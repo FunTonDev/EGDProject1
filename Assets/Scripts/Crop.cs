@@ -43,7 +43,7 @@ public class Crop : MonoBehaviour
 
         GameObject waterBarObj = Instantiate(waterBarPrefab);
         waterBarObj.transform.SetParent(canvas.transform);
-        waterBarObj.transform.position = GetComponent<Transform>().position + Vector3.up * 0.5f;
+        waterBarObj.transform.position = GetComponent<Transform>().position + Vector3.up * 1.0f;
         waterBar = waterBarObj.GetComponent<Image>();
 
         removeCrop();
