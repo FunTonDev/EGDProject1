@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class Crop : MonoBehaviour
 {
+    public static float[] stageHealths = new float[5] {
+        0, 0.5f, 1.5f, 2.5f, 0.5f
+    };
+
+    //Current stage manager
+    private StageManager mani;
+
     //Amount of time for the plant to spawn back into the game
     public float spawnTimer;
     //Max amount of time to spawn
@@ -21,11 +28,7 @@ public class Crop : MonoBehaviour
     private SpriteRenderer plot;
 
     //Sprites to match the crops level
-    public Sprite stage0;
-    public Sprite stage1;
-    public Sprite stage2;
-    public Sprite stage3;
-    public Sprite stage4;
+    public Sprite[] stages;
 
     //Prefab for water bar
     public GameObject waterBarPrefab;
@@ -39,6 +42,7 @@ public class Crop : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        mani = GameObject.FindGameObjectWithTag("Manager").GetComponent<StageManager>();
         plot = GetComponent<SpriteRenderer>();
 
         GameObject waterBarObj = Instantiate(waterBarPrefab);
@@ -46,26 +50,25 @@ public class Crop : MonoBehaviour
         waterBarObj.transform.position = GetComponent<Transform>().position + Vector3.up * 1.0f;
         waterBar = waterBarObj.GetComponent<Image>();
 
-        removeCrop();
+        hasCrop = false;
+        updateStage(0);
+    }
+
+    private void updateStage(int newStage) {
+        mani.currentPlantHealth -= stageHealths[cropLevel];
+        mani.currentPlantHealth += stageHealths[newStage];
+        plot.sprite = stages[newStage];
+        cropLevel = newStage;
     }
 
     //Give the plot of land a crop (and change appearance)
     public void nextGrowthStage()
     {
         hasCrop = true;
-        if (cropLevel < 3) cropLevel += 1;
-        else if (cropLevel != 3) cropLevel -= 1;
-        if (cropLevel == 1)
-        {
-            plot.sprite = stage1;
-        }
-        else if (cropLevel == 2)
-        {
-            plot.sprite = stage2;
-        }
-        else if (cropLevel == 3)
-        {
-            plot.sprite = stage3;
+        if (cropLevel < 3) {
+            updateStage(cropLevel + 1);
+        } else {
+            updateStage(cropLevel - 1);
         }
         waterTimer = 10;
         waterBar.color = new Color(0.0f, 1.0f, 1.0f, 1.0f);
@@ -90,7 +93,7 @@ public class Crop : MonoBehaviour
         }
         else
         {
-            plot.sprite = stage4;
+            updateStage(4);
         }
         waterTimer = 10;
         waterBar.color = new Color(0.0f, 1.0f, 1.0f, 0.0f);
@@ -107,13 +110,13 @@ public class Crop : MonoBehaviour
         {
             nextGrowthStage();
         }
-        if (waterTimer > 0 && hasCrop)
+        if (waterTimer > 0 && hasCrop) {
             waterTimer -= Time.deltaTime;
+        }
         waterBar.fillAmount = waterTimer / waterTimerMax;
         if (waterTimer <= 0 && hasCrop)
         {
-            hasCrop = false;
-            plot.color = new Color(1.0f, 0.5f, 0.0f);
+            removeCrop();
         }
     }
 }

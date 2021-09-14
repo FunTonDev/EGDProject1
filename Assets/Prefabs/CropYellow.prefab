@@ -102,6 +102,12 @@ MonoBehaviour:
   waterTimerMax: 0
   hasCrop: 0
   cropLevel: 0
+  stages:
+  - {fileID: 21300000, guid: 8b2da0207850e51489f01fb2b191cee4, type: 3}
+  - {fileID: 21300000, guid: 8b2da0207850e51489f01fb2b191cee4, type: 3}
+  - {fileID: 21300000, guid: 82d871557158d244e833f7f2dc93e87e, type: 3}
+  - {fileID: 21300000, guid: 6755f267d7b482244be668f24719bb04, type: 3}
+  - {fileID: 21300000, guid: 274499296d6d06748b7de15f388f7aba, type: 3}
   stage0: {fileID: 21300000, guid: 8b2da0207850e51489f01fb2b191cee4, type: 3}
   stage1: {fileID: 21300000, guid: 8b2da0207850e51489f01fb2b191cee4, type: 3}
   stage2: {fileID: 21300000, guid: 82d871557158d244e833f7f2dc93e87e, type: 3}

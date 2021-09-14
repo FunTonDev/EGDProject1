@@ -125,9 +125,7 @@ public class PlayerController : MonoBehaviour
             if (onCrop && playerRB.velocity.y == 0 && currentCrop.GetComponent<Crop>().hasCrop && waterTank > 0)
             {
                 animator.SetBool("Watering", true);
-                //If interact with a plot of land that has a crop, perform operation and gain points
-                mani.score += 100;
-                mani.updateScore();
+                //If interact with a plot of land that has a crop, perform operation
                 currentCrop.GetComponent<Crop>().scoreCrop();
                 waterTank -= 0.2f;
                 playerSource.PlayOneShot(playerClips[1]);

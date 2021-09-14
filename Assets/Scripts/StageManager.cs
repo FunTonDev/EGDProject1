@@ -24,7 +24,7 @@ public class StageManager : MonoBehaviour
     //Multiplier to delta score
     public float deltaScoreMultiplier;
     //Variable tracking current plant health
-    public int currentPlantHealth;
+    public float currentPlantHealth;
 
     //Max amount of time countdown starts at
     public float maxCountdown = 10;
