@@ -7,8 +7,9 @@ public class StageManager : MonoBehaviour
 {
     //A grouping of all plots on the stage
     public GameObject[] plots;
-    //The current score 
-    public int score;
+
+    //The current score
+    public float score;
     //Score needed to get the rocket to disappear
     public int maxScoreRocket;
     //Score needed to get the rocket to appear 
@@ -17,10 +18,19 @@ public class StageManager : MonoBehaviour
     public int maxScoreEnd;
     //Score that the ending countdown starts at (bad end)
     public int lowScoreEnd;
+
+    //Plant health needed to stabilize score
+    public float stablePlantHealth;
+    //Multiplier to delta score
+    public float deltaScoreMultiplier;
+    //Variable tracking current plant health
+    public int currentPlantHealth;
+
     //Max amount of time countdown starts at
     public float maxCountdown = 10;
     //Current time in the countdown
-    public float currentCountdown = 10;
+    private float currentCountdown = 10;
+
     //Text to display the current score
     public Text scoreText;
     //Rocket Ship object
@@ -54,11 +64,11 @@ public class StageManager : MonoBehaviour
         }
         musicSource.clip = musicClips[0];
         musicSource.Play();
+        currentPlantHealth = 0;
     }
 
     public void updateScore()
     {
-        scoreText.color = new Color(0.0f, 1.0f, 0.0f);
         scoreText.text = "Score: " + score;
         scoreText.color = new Color(1.0f, 1.0f, 1.0f);
     }
@@ -72,6 +82,9 @@ public class StageManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        score += Time.deltaTime * deltaScoreMultiplier * (currentPlantHealth - stablePlantHealth);
+        updateScore();
+
         if (score <= lessScoreRocket && rocketShip.transform.position.y < -1)
         {
             rocketShip.transform.position = new Vector3(rocketShip.transform.position.x, rocketShip.transform.position.y + 0.01f, rocketShip.transform.position.z);

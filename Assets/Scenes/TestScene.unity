@@ -213,13 +213,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plots: []
-  score: 0
+  score: 70
   maxScoreRocket: 100
   lessScoreRocket: 0
   maxScoreEnd: 0
   lowScoreEnd: 0
+  stablePlantHealth: 5
+  deltaScoreMultiplier: 1
+  currentPlantHealth: 0
   maxCountdown: 10
-  currentCountdown: 10
   scoreText: {fileID: 1695866688}
   rocketShip: {fileID: 1867449534}
   fader: {fileID: 0}
@@ -4541,6 +4543,54 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!1 &1562400107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1562400108}
+  - component: {fileID: 1562400109}
+  m_Layer: 0
+  m_Name: ScoreManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1562400108
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562400107}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1562400109
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562400107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0569c5e5d2fc91849b23b44f5f9fa2b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stablePlantHealth: 0
+  deltaScoreScale: 0
+  startingScore: 0
+  winningScore: 0
+  losingScore: 0
 --- !u!1 &1695866686
 GameObject:
   m_ObjectHideFlags: 0
