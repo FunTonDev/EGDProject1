@@ -48,6 +48,12 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "WaterHole") {
             onWater = true;
         }
+
+        if (collision.gameObject.tag == "Rocket")
+        {
+            //Initiate Stage End
+            
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision) {

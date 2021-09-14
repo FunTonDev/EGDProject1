@@ -54,7 +54,7 @@ public class Crop : MonoBehaviour
     {
         hasCrop = true;
         if (cropLevel < 3) cropLevel += 1;
-        else cropLevel -= 1;
+        else if (cropLevel != 3) cropLevel -= 1;
         if (cropLevel == 1)
         {
             plot.sprite = stage1;
@@ -78,6 +78,7 @@ public class Crop : MonoBehaviour
         hasCrop = false;
         spawnTimer = spawnTimerMax;
         waterBar.color = new Color(0.0f, 1.0f, 1.0f, 0.0f);
+        plot.color = new Color(1.0f, 1.0f, 1.0f);
     }
 
     //Remove crop from plot of land

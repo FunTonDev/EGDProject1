@@ -9,15 +9,27 @@ public class StageManager : MonoBehaviour
     public GameObject[] plots;
     //The current score 
     public int score;
-    //Score needed to get the rocket to appear (continue)
+    //Score needed to get the rocket to disappear
     public int maxScoreRocket;
+    //Score needed to get the rocket to appear 
+    public int lessScoreRocket;
     //Score needed to fix earth (good end)
     public int maxScoreEnd;
+    //Score that the ending countdown starts at (bad end)
+    public int lowScoreEnd;
+    //Max amount of time countdown starts at
+    public float maxCountdown = 10;
+    //Current time in the countdown
+    public float currentCountdown = 10;
     //Text to display the current score
     public Text scoreText;
-
-
+    //Rocket Ship object
     public GameObject rocketShip;
+    //UI image to fade out of the scene
+    public Image fader;
+
+    public GameObject leftBorder;
+    public GameObject rightBorder;
 
 
     public AudioSource musicSource;
@@ -51,12 +63,27 @@ public class StageManager : MonoBehaviour
         scoreText.color = new Color(1.0f, 1.0f, 1.0f);
     }
 
+    public void stageEnd(bool status)
+    {
+        
+    }
+
+
     // Update is called once per frame
     void Update()
     {
-        if (score >= maxScoreRocket && rocketShip.transform.position.y < -1)
+        if (score <= lessScoreRocket && rocketShip.transform.position.y < -1)
         {
             rocketShip.transform.position = new Vector3(rocketShip.transform.position.x, rocketShip.transform.position.y + 0.01f, rocketShip.transform.position.z);
+        }
+        else if (score >= maxScoreRocket && rocketShip.transform.position.y > -9)
+        {
+            rocketShip.transform.position = new Vector3(rocketShip.transform.position.x, rocketShip.transform.position.y - 0.01f, rocketShip.transform.position.z);
+        }
+        if (currentCountdown <= 0)
+        {
+            //End the stage (bad end)
+
         }
     }
 }
