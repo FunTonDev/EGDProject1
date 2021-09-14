@@ -32,6 +32,10 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
 
+    private float stepTime;
+    public AudioSource playerSource;
+    public List<AudioClip> playerClips;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Debug.Log(collision.gameObject.tag);
@@ -68,6 +72,7 @@ public class PlayerController : MonoBehaviour
         grounded = true;
         waterTank = 1.0f;
         waterTankMax = 1.0f;
+        stepTime = 0.0f;
     }
 
     void FixedUpdate()
@@ -76,6 +81,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetAxisRaw("Vertical") > 0 && grounded) {
             playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
             animator.SetBool("isJumping", true);
+            playerSource.PlayOneShot(playerClips[2]);
         }
 
         //Get movement input in the horizontal axis, multiply by speed, and move that amount
@@ -96,6 +102,11 @@ public class PlayerController : MonoBehaviour
             {
                 GetComponent<SpriteRenderer>().flipX = false;
             }
+            if (Time.time - stepTime > 0.4f || stepTime == 0.0f)
+            {
+                playerSource.PlayOneShot(playerClips[Random.Range(3,6)], 0.5f);
+                stepTime = Time.time;
+            }
         }
     }
 
@@ -113,12 +124,14 @@ public class PlayerController : MonoBehaviour
                 mani.updateScore();
                 currentCrop.GetComponent<Crop>().scoreCrop();
                 waterTank -= 0.2f;
+                playerSource.PlayOneShot(playerClips[1]);
             }
             //INTERACT with watering hole
             else if (onWater && playerRB.velocity.y == 0)
             {
                 animator.SetBool("Refilling", true);
                 waterTank = waterTankMax;
+                playerSource.PlayOneShot(playerClips[0], 0.025f);
             }
         }
 

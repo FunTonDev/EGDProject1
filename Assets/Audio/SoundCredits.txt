@@ -1,0 +1,5 @@
+Sound Credits:
+-Eric Matyas: 'Sci-fi Trance1', 'Sci-fi Trance2', 'Sci-fi Trance3', 'And the Machines Came at Midnight', 'Ominous-Sci-Fi-Menu', 'Retro-Space-Hero', 'Suburban-Park_5', 'Ambient-Rumble'
+-RCPTones: 'beep-short-on','beep-short-off'
+-OpenGameArt user 'rubberduck': 'sfx100v2_air_01'
+-OpenGameArt user 'Michel Baradari': 'splash1'

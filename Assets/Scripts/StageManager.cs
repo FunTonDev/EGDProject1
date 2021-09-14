@@ -19,6 +19,11 @@ public class StageManager : MonoBehaviour
 
     public GameObject rocketShip;
 
+
+    public AudioSource musicSource;
+    public List<AudioClip> musicClips;
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -35,6 +40,8 @@ public class StageManager : MonoBehaviour
                 add += 7;
             }
         }
+        musicSource.clip = musicClips[0];
+        musicSource.Play();
     }
 
     public void updateScore()
