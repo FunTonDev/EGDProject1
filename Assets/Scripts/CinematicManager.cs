@@ -12,12 +12,13 @@ public class CinematicManager : MonoBehaviour
     public List<Sprite> introSprites;
     public List<Sprite> end1Sprites;
     public List<Sprite> end2Sprites;
-
-    public bool cinematicComplete;
+    public GameObject continueButton;
+    public GameObject gameGuide;
 
     void Start()
     {
-        cinematicComplete = false;
+        gameGuide.SetActive(false);
+        continueButton.SetActive(false);
         switch(GameManager.cinematicChosen)
         {
             case Cinematic.INTRO:
@@ -29,21 +30,6 @@ public class CinematicManager : MonoBehaviour
             case Cinematic.END2:
                 End2Cinematic();
                 break;
-        }
-    }
-
-    private void Update()
-    {
-        if (cinematicComplete && (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0))
-        {
-            if (GameManager.cinematicChosen == Cinematic.INTRO)
-            {
-                GameManager.SetGameState(GameState.GAME);
-            }
-            else
-            {
-                GameManager.SetGameState(GameState.MENU);
-            }
         }
     }
 
@@ -61,7 +47,7 @@ public class CinematicManager : MonoBehaviour
         LoopPlayClip(auxSource, cinematicClips[3]);
 
         StartCoroutine(AnimationLoop(end1Sprites));
-        StartCoroutine(CinematicTimeBuffer(6.0f));
+        StartCoroutine(CinematicEndBuffer(6.0f));
     }
 
     private void End2Cinematic()
@@ -70,7 +56,7 @@ public class CinematicManager : MonoBehaviour
         LoopPlayClip(auxSource, cinematicClips[4]);
 
         StartCoroutine(AnimationLoop(end2Sprites));
-        StartCoroutine(CinematicTimeBuffer(6.0f));
+        StartCoroutine(CinematicEndBuffer(6.0f));
     }
 
     private void LoopPlayClip(AudioSource tSource, AudioClip tClip, float tVolume = 1.0f)
@@ -79,6 +65,30 @@ public class CinematicManager : MonoBehaviour
         tSource.volume = tVolume;
         tSource.clip = tClip;
         tSource.Play();
+    }
+
+    public void NextSceneContinue()
+    {
+        if (GameManager.cinematicChosen == Cinematic.INTRO)
+        {
+            if (!gameGuide.activeInHierarchy)
+            {
+                gameGuide.SetActive(true);
+            }
+            else
+            {
+                GameManager.SetGameState(GameState.GAME);
+            }
+        }
+        else
+        {
+            GameManager.SetGameState(GameState.MENU);
+        }
+    }
+
+    public void MouseAudioTrigger(AudioClip tClip)
+    {
+        auxSource.PlayOneShot(tClip);
     }
 
     private IEnumerator AnimationLoop(List<Sprite> animationSprites)
@@ -97,11 +107,12 @@ public class CinematicManager : MonoBehaviour
     private IEnumerator IntroTextSequence()
     {
 
-        yield return StartCoroutine(CinematicTimeBuffer(2.0f));
+        yield return StartCoroutine(CinematicEndBuffer(2.0f));
     }
-    private IEnumerator CinematicTimeBuffer(float time)
+
+    private IEnumerator CinematicEndBuffer(float time)
     {
         yield return new WaitForSeconds(time);
-        cinematicComplete = true;
+        continueButton.SetActive(true);
     }
 }
