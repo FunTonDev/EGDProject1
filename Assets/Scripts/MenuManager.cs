@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum MenuSection { Main, Help, Quit }
+
 public class MenuManager : MonoBehaviour
 {
+    public List<GameObject> panels;
     public AudioSource navSource;
     public AudioClip choiceClip;
     public AudioClip confirmClip;
@@ -13,26 +16,9 @@ public class MenuManager : MonoBehaviour
 
     public void Start()
     {
+        SetActiveMenuPanel(MenuSection.Main);
         StartCoroutine(ParallaxPanLoop(bg, 12.0f));
         StartCoroutine(ParallaxPanLoop(ship, 4.0f));
-    }
-
-    public void MouseAudioTrigger(AudioClip tClip)
-    {
-        navSource.clip = tClip;
-        navSource.PlayOneShot(tClip);
-    }
-
-    public void ButtonChoice(int index)
-    {
-        if (index == 0)
-        {
-            GameManager.SetGameState(GameState.CINEMATIC);
-        }
-        else
-        {
-            Application.Quit();
-        }
     }
 
     IEnumerator ParallaxPanLoop(Graphic tGraphic, float displace = 1.0f)
@@ -55,5 +41,57 @@ public class MenuManager : MonoBehaviour
                 yield return new WaitForSeconds(0.1f);
             }
         }
+    }
+
+    public void MouseAudioTrigger(AudioClip tClip)
+    {
+        navSource.PlayOneShot(tClip);
+    }
+
+    public void MenuChoice(int index)
+    {
+        switch (index)
+        {
+            case -1:
+                Application.Quit();
+                break;
+            case 0:
+                GameManager.SetGameState(GameState.CINEMATIC);
+                break;
+            case 1:
+                SetActiveMenuPanel(MenuSection.Main);
+                break;
+            case 2:
+                SetActiveMenuPanel(MenuSection.Help);
+                break;
+            case 3:
+                SetActiveMenuPanel(MenuSection.Quit);
+                break;
+            case 4:
+                NextGuidePage();
+                break;
+            case 5:
+                PrevGuidePage();
+                break;
+        }
+    }
+
+    public void SetActiveMenuPanel(MenuSection tSection)
+    {
+        foreach(GameObject p in panels)
+        {
+            p.SetActive(false);
+        }
+        panels[(int)tSection].SetActive(true);
+    }
+
+    public void NextGuidePage()
+    {
+
+    }
+
+    public void PrevGuidePage()
+    {
+
     }
 }
