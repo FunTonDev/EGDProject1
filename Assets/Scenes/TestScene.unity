@@ -214,10 +214,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plots: []
   score: 0
-  maxScoreRocket: 600
+  maxScoreRocket: 100
+  lessScoreRocket: 0
   maxScoreEnd: 0
+  lowScoreEnd: 0
+  maxCountdown: 10
+  currentCountdown: 10
   scoreText: {fileID: 1695866688}
   rocketShip: {fileID: 1867449534}
+  fader: {fileID: 0}
+  leftBorder: {fileID: 0}
+  rightBorder: {fileID: 0}
   musicSource: {fileID: 172964996}
   musicClips:
   - {fileID: 8300000, guid: 9d0cf35177554b840bdf8fb56828061d, type: 3}
