@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum GameState { MENU , CINEMATIC, GAME, TEST }
+public enum GameState { MENU, CINEMATIC, GAME, TEST }
 
 public static class GameManager
 {
@@ -12,6 +12,6 @@ public static class GameManager
     public static void SetGameState(GameState state)
     {
         gameState = state;
-        SceneManager.LoadScene(SceneManager.GetSceneAt((int)state).name);
+        SceneManager.LoadScene((int)gameState);
     }
 }
