@@ -48,6 +48,7 @@ public class Crop : MonoBehaviour
         GameObject waterBarObj = Instantiate(waterBarPrefab);
         waterBarObj.transform.SetParent(canvas.transform);
         waterBarObj.transform.position = GetComponent<Transform>().position + Vector3.up * 1.0f;
+        waterBarObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         waterBar = waterBarObj.GetComponent<Image>();
         waterBar.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 

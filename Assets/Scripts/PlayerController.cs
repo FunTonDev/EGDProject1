@@ -15,6 +15,12 @@ public class PlayerController : MonoBehaviour
     public float playerSpeed;
     //Force the player jumps up with
     public float jumpForce;
+    //Force applied to player if they hold jump
+    public float sustainedJumpForce;
+    //Timespan in which force can be applied
+    public float maxJumpTime;
+    //Gravity force
+    public float gravityForce;
     //Max amount the water tank can hold
     public float waterTankMax = 1.0f;
     //The current amount the tank holds
@@ -32,13 +38,14 @@ public class PlayerController : MonoBehaviour
 
     public Animator animator;
 
+    private Vector2 playerVelocity;
+    private float jumpTime;
     private float stepTime;
     public AudioSource playerSource;
     public List<AudioClip> playerClips;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.gameObject.tag);
         //If player is on crop space, set current crop to interact with
         if (collision.gameObject.tag == "Crop") {
             onCrop = true;
@@ -76,17 +83,43 @@ public class PlayerController : MonoBehaviour
         GameObject temp = GameObject.FindGameObjectWithTag("Manager");
         mani = temp.GetComponent<StageManager>();
         //playerDirection = 1.0f;
-        grounded = true;
+        grounded = false;
         waterTank = 1.0f;
         waterTankMax = 1.0f;
         stepTime = 0.0f;
+        playerVelocity = new Vector2(0.0f, 0.0f);
     }
 
     void FixedUpdate()
     {
+        if (!grounded) {
+            playerVelocity = new Vector2(playerVelocity.x, playerVelocity.y - gravityForce * Time.deltaTime);
+        }
+
+        Vector3 newPos = playerRB.position + playerVelocity * Time.deltaTime;
+
+        if (!Physics.CheckBox(newPos, playerCollider.bounds.extents / 2, Quaternion.identity, 1 << 3)) {
+            playerRB.position = newPos;
+        }
+
+        //Check if the player is grounded
+        RaycastHit2D groundCheck = Physics2D.Raycast(playerCollider.bounds.center + Vector3.down * playerCollider.bounds.size.y / 2, Vector3.down, Mathf.Infinity, 1 << 3);
+        bool wasGrounded = grounded;
+        grounded = groundCheck.collider != null && groundCheck.distance < 0.015f;
+        if (grounded && !wasGrounded) {
+            playerVelocity = new Vector2(playerVelocity.x, 0);
+        }
+        if (grounded) animator.SetBool("isJumping", false);
+    }
+
+    private void Update() {
+        if (jumpTime > 0) {
+            jumpTime -= Time.deltaTime;
+        }
         //JUMP
-        if (Input.GetAxisRaw("Vertical") > 0 && grounded) {
-            playerRB.velocity = new Vector2(playerRB.velocity.x, jumpForce);
+        if (Input.GetAxisRaw("Vertical") > 0 && (grounded || jumpTime > 0)) {
+            playerVelocity = new Vector2(playerVelocity.x, playerVelocity.y + (jumpTime > 0 ? sustainedJumpForce * Time.deltaTime : jumpForce));
+            if (jumpTime <= 0) jumpTime = maxJumpTime;
             animator.SetBool("isJumping", true);
             playerSource.PlayOneShot(playerClips[2]);
         }
@@ -97,30 +130,23 @@ public class PlayerController : MonoBehaviour
         playerRB.velocity = new Vector2(mover, playerRB.velocity.y);
         animator.SetFloat("PlayerSpeed", Mathf.Abs(playerRB.velocity.x));
 
-        if (mover != 0)
-        {
+        if (mover != 0) {
             animator.SetBool("Watering", false);
             animator.SetBool("Refilling", false);
-            if (mover > 0)
-            {
+            if (mover > 0) {
                 GetComponent<SpriteRenderer>().flipX = true;
-            }
-            else if (mover < 0)
-            {
+            } else if (mover < 0) {
                 GetComponent<SpriteRenderer>().flipX = false;
             }
-            if (Time.time - stepTime > 0.4f || stepTime == 0.0f)
-            {
-                playerSource.PlayOneShot(playerClips[Random.Range(3,6)], 0.5f);
+            if (Time.time - stepTime > 0.4f || stepTime == 0.0f) {
+                playerSource.PlayOneShot(playerClips[Random.Range(3, 6)], 0.5f);
                 stepTime = Time.time;
             }
         }
-    }
 
-    private void Update()
-    {
+
         //INTERACT
-        if (Input.GetAxisRaw("Vertical") < 0)
+        if (grounded && jumpTime <= 0 && Input.GetAxisRaw("Vertical") < 0)
         {
             //INTERACT with crop while having water
             if (onCrop && playerRB.velocity.y == 0 && currentCrop.GetComponent<Crop>().hasCrop && waterTank > 0)
@@ -139,11 +165,6 @@ public class PlayerController : MonoBehaviour
                 playerSource.PlayOneShot(playerClips[0], 0.025f);
             }
         }
-
-        //Check if the player is grounded
-        RaycastHit2D groundCheck = Physics2D.Raycast(playerCollider.bounds.center + Vector3.down * playerCollider.bounds.size.y / 2, Vector3.down, Mathf.Infinity, 1 << 0);
-        grounded = groundCheck.collider != null && groundCheck.distance < 0.015f;
-        if (grounded) animator.SetBool("isJumping", false);
 
         waterBar.fillAmount = waterTank;
     }

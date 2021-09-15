@@ -218,7 +218,7 @@ MonoBehaviour:
   lessScoreRocket: 35
   maxScoreEnd: 70
   stablePlantHealth: 3
-  deltaScoreMultiplier: 1
+  deltaScoreMultiplier: 0.1
   currentPlantHealth: 0
   maxCountdown: 10
   currentCountdown: 10
@@ -1250,7 +1250,7 @@ GameObject:
   - component: {fileID: 662534959}
   - component: {fileID: 662534958}
   - component: {fileID: 662534960}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: C_Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2530,7 +2530,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 8e09e381571e1004daef4de5fcaaaf36, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cc8fd591b638c2e46934b3a048ac18a8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -5577,25 +5577,69 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1552141331392479805, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: BypassEffects
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1552141331392479805, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: BypassListenerEffects
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457856850466862648, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457856850466862649, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: m_Size.x
+      value: 3.3453588
+      objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862649, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: m_Size.y
-      value: 4.4440446
+      value: 4.066593
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457856850466862649, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.00913167
       objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862649, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: m_Offset.y
-      value: 0.011119127
+      value: -0.17760658
       objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862650, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: m_Name
       value: PlayerChar
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457856850466862650, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: waterBar
       value: 
       objectReference: {fileID: 2064881192}
     - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: jumpForce
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: maxJumpTime
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: playerSpeed
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: gravityForce
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: maxJumpFrames
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
+      propertyPath: sustainedJumpForce
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: playerClips.Array.size
