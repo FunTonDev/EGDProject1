@@ -214,9 +214,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plots: []
   score: 70
-  maxScoreRocket: 75
+  maxScoreRocket: 70
   lessScoreRocket: 68
-  maxScoreEnd: 70
+  maxScoreEnd: 72
   lowScoreEnd: 0
   stablePlantHealth: 3
   deltaScoreMultiplier: 0.1
@@ -228,6 +228,7 @@ MonoBehaviour:
   CountBack: {fileID: 1559355322}
   countDownText: {fileID: 381520230}
   ender: 0
+  theEnd: 0
   rocketShip: {fileID: 1867449534}
   fader: {fileID: 1664971781}
   leftBorder: {fileID: 488066122}

@@ -16,8 +16,6 @@ public class StageManager : MonoBehaviour
     public int lessScoreRocket;
     //Score needed to fix earth (good end)
     public int maxScoreEnd;
-    //Score that the ending countdown starts at (bad end)
-    public int lowScoreEnd;
 
     //Plant health needed to stabilize score
     public float stablePlantHealth;
@@ -41,6 +39,8 @@ public class StageManager : MonoBehaviour
     public Text countDownText;
     //Bool to show whether the countdown should begin or not
     public bool ender;
+    //Bool to show whether the game is over or not
+    public bool theEnd;
     //Rocket Ship object
     public GameObject rocketShip;
     //UI image to fade out of the scene
@@ -95,10 +95,17 @@ public class StageManager : MonoBehaviour
     {
         score += Time.deltaTime * deltaScoreMultiplier * (currentPlantHealth - stablePlantHealth);
         updateScore();
-        if (ender && currentCountdown > 0)
+        if (ender && currentCountdown > 0 && score <= lessScoreRocket)
         {
             currentCountdown -= Time.deltaTime;
             countDownText.text = string.Format("Time until Blast Off: {0:#.00}", currentCountdown);
+            countDownText.color = new Color(1.0f, 0.0f, 0.0f);
+        }
+        else if (ender && currentCountdown > 0)
+        {
+            currentCountdown -= Time.deltaTime;
+            countDownText.text = string.Format("Just a little more... {0:#.00}", currentCountdown);
+            countDownText.color = new Color(0.0f, 1.0f, 0.0f);
         }
 
         countDownText.gameObject.SetActive(ender);
@@ -120,10 +127,24 @@ public class StageManager : MonoBehaviour
             rocketShip.transform.position = new Vector3(rocketShip.transform.position.x, rocketShip.transform.position.y - 0.01f, rocketShip.transform.position.z);
             PlayGameMusic(0);
         }
-        if (currentCountdown <= 0)
+
+        if (score >= maxScoreEnd)
         {
+            ender = true;
+        }
+        else if (score >= maxScoreRocket && score < maxScoreEnd)
+        {
+            ender = false;
+            currentCountdown = maxCountdown;
+        }
 
-
+        if (score >= maxScoreEnd && currentCountdown <= 0)
+        {
+            stageEnd(true);
+        }
+        else if (score <= lessScoreRocket && currentCountdown <= 0)
+        {
+            stageEnd(false);
         }
     }
 

@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.tag == "Rocket")
         {
             //Initiate Stage End
+            mani.stageEnd(false);
             Debug.Log("Rocketeer");
         }
     }
