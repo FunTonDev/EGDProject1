@@ -5619,7 +5619,7 @@ PrefabInstance:
       objectReference: {fileID: 2064881192}
     - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: jumpForce
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: maxJumpTime
@@ -5631,7 +5631,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: gravityForce
-      value: 10
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: maxJumpFrames
@@ -5639,7 +5639,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: sustainedJumpForce
-      value: 2
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 8457856850466862651, guid: 248ba8bc475a6cc4a8aa1f2e74895370, type: 3}
       propertyPath: playerClips.Array.size

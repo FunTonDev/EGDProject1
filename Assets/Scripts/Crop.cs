@@ -82,7 +82,7 @@ public class Crop : MonoBehaviour
     //Make water bar disappear above crop
     public void scoreCrop()
     {
-        waterTimerMax = 10;
+        waterTimer = 10;
         hasCrop = false;
         spawnTimer = spawnTimerMax;
         waterBar.color = new Color(0.0f, 1.0f, 1.0f, 0.0f);

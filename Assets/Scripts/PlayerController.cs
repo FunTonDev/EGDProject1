@@ -70,7 +70,7 @@ public class PlayerController : MonoBehaviour
             onCrop = false;
             currentCrop = null;
         }
-        //If player is on a watering hole, set bool to true
+        //If player is on a watering hole, set bool to false
         if (collision.gameObject.tag == "WaterHole") {
             onWater = false;
         }
@@ -82,7 +82,6 @@ public class PlayerController : MonoBehaviour
         playerCollider = GetComponent<Collider2D>();
         GameObject temp = GameObject.FindGameObjectWithTag("Manager");
         mani = temp.GetComponent<StageManager>();
-        //playerDirection = 1.0f;
         grounded = false;
         waterTank = 1.0f;
         waterTankMax = 1.0f;
@@ -96,15 +95,24 @@ public class PlayerController : MonoBehaviour
             playerVelocity = new Vector2(playerVelocity.x, playerVelocity.y - gravityForce * Time.deltaTime);
         }
 
-        Vector3 newPos = playerRB.position + playerVelocity * Time.deltaTime;
+        // try horizontal movement first (fails on overlap with ground)
+        Vector3 newPos = playerRB.position + Vector2.right * playerVelocity.x * Time.deltaTime;
+        Collider[] overlaps = Physics.OverlapBox(newPos, playerCollider.bounds.extents / 2, Quaternion.identity, 1 << 3);
+        if (overlaps.Length == 0) {
+            playerRB.position = newPos;
+        }
 
-        if (!Physics.CheckBox(newPos, playerCollider.bounds.extents / 2, Quaternion.identity, 1 << 3)) {
+        // next try vertical movement (fails on overlap with ground)
+        newPos = playerRB.position + Vector2.up * playerVelocity.y * Time.deltaTime;
+        overlaps = Physics.OverlapBox(newPos, playerCollider.bounds.extents / 2, Quaternion.identity, 1 << 3);
+        if (overlaps.Length == 0) {
             playerRB.position = newPos;
         }
 
         //Check if the player is grounded
         RaycastHit2D groundCheck = Physics2D.Raycast(playerCollider.bounds.center + Vector3.down * playerCollider.bounds.size.y / 2, Vector3.down, Mathf.Infinity, 1 << 3);
         bool wasGrounded = grounded;
+
         grounded = groundCheck.collider != null && groundCheck.distance < 0.015f;
         if (grounded && !wasGrounded) {
             playerVelocity = new Vector2(playerVelocity.x, 0);
@@ -124,11 +132,11 @@ public class PlayerController : MonoBehaviour
             playerSource.PlayOneShot(playerClips[2]);
         }
 
-        //Get movement input in the horizontal axis, multiply by speed, and move that amount
+        //Get movement input in the horizontal axis, multiply by speed, and set player velocity to that amount
         float mover = Input.GetAxisRaw("Horizontal");
         mover = mover * playerSpeed;
-        playerRB.velocity = new Vector2(mover, playerRB.velocity.y);
-        animator.SetFloat("PlayerSpeed", Mathf.Abs(playerRB.velocity.x));
+        playerVelocity = new Vector2(mover, playerVelocity.y);
+        animator.SetFloat("PlayerSpeed", Mathf.Abs(playerVelocity.x));
 
         if (mover != 0) {
             animator.SetBool("Watering", false);
