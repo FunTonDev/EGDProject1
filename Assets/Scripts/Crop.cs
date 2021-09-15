@@ -46,7 +46,7 @@ public class Crop : MonoBehaviour
         plot = GetComponent<SpriteRenderer>();
 
         GameObject waterBarObj = Instantiate(waterBarPrefab, canvas.transform);
-        waterBarObj.transform.position = GetComponent<Transform>().position + Vector3.up * 1.0f;
+        waterBarObj.transform.position = GetComponent<Transform>().position + 0.5f * Vector3.right * Mathf.Sign(GetComponent<Transform>().position.x);
         waterBarObj.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
         waterBar = waterBarObj.GetComponent<Image>();
         waterBar.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
