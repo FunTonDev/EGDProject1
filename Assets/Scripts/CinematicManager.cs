@@ -18,7 +18,6 @@ public class CinematicManager : MonoBehaviour
 
     void Start()
     {
-        GameManager.cinematicChosen = Cinematic.END2;
         introText.gameObject.SetActive(false);
         gameGuide.SetActive(false);
         continueButton.SetActive(false);
