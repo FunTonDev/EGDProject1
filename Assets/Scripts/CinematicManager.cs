@@ -18,6 +18,7 @@ public class CinematicManager : MonoBehaviour
 
     void Start()
     {
+        GameManager.cinematicChosen = Cinematic.END2;
         introText.gameObject.SetActive(false);
         gameGuide.SetActive(false);
         continueButton.SetActive(false);
@@ -47,7 +48,7 @@ public class CinematicManager : MonoBehaviour
 
     private void End1Cinematic()
     {
-        LoopPlayClip(mainSource, cinematicClips[1], 0.2f);
+        LoopPlayClip(mainSource, cinematicClips[1], 0.3f);
         LoopPlayClip(auxSource, cinematicClips[3]);
 
         StartCoroutine(AnimationLoop(end1Sprites));
@@ -56,7 +57,7 @@ public class CinematicManager : MonoBehaviour
 
     private void End2Cinematic()
     {
-        LoopPlayClip(mainSource, cinematicClips[2]);
+        LoopPlayClip(mainSource, cinematicClips[2], 0.9f);
         LoopPlayClip(auxSource, cinematicClips[4]);
 
         StartCoroutine(AnimationLoop(end2Sprites));
