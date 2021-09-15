@@ -217,7 +217,6 @@ MonoBehaviour:
   maxScoreRocket: 70
   lessScoreRocket: 68
   maxScoreEnd: 72
-  lowScoreEnd: 0
   stablePlantHealth: 3
   deltaScoreMultiplier: 0.1
   currentPlantHealth: 0
@@ -237,6 +236,7 @@ MonoBehaviour:
   musicClips:
   - {fileID: 8300000, guid: 9d0cf35177554b840bdf8fb56828061d, type: 3}
   - {fileID: 8300000, guid: ed10a9eac02313840abf664191c37490, type: 3}
+  currentMusic: 0
 --- !u!82 &172964996
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5095,7 +5095,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
