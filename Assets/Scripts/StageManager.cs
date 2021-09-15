@@ -52,7 +52,7 @@ public class StageManager : MonoBehaviour
 
     public AudioSource musicSource;
     public List<AudioClip> musicClips;
-
+    public int currentMusic;
 
     // Start is called before the first frame update
     void Start()
@@ -70,8 +70,8 @@ public class StageManager : MonoBehaviour
                 add += 7;
             }
         }
-        musicSource.clip = musicClips[0];
-        musicSource.Play();
+        currentMusic = -1;
+        PlayGameMusic(0);
         currentPlantHealth = 0;
         currentCountdown = maxCountdown = 10;
     }
@@ -85,7 +85,8 @@ public class StageManager : MonoBehaviour
     //End the game (true == good end, false == bad end)
     public void stageEnd(bool status)
     {
-        
+        Cinematic endCinematic = status ? Cinematic.END1 : Cinematic.END2;
+        GameManager.SetGameState(GameState.CINEMATIC, endCinematic);
     }
 
 
@@ -97,7 +98,7 @@ public class StageManager : MonoBehaviour
         if (ender && currentCountdown > 0)
         {
             currentCountdown -= Time.deltaTime;
-            countDownText.text = string.Format("Time until Blast Off: {0:#.00}",currentCountdown);
+            countDownText.text = string.Format("Time until Blast Off: {0:#.00}", currentCountdown);
         }
 
         countDownText.gameObject.SetActive(ender);
@@ -109,6 +110,7 @@ public class StageManager : MonoBehaviour
         {
             ender = true;
             rocketShip.transform.position = new Vector3(rocketShip.transform.position.x, rocketShip.transform.position.y + 0.01f, rocketShip.transform.position.z);
+            PlayGameMusic(1);
         }
         //If score is high enough, remove rocket and stop countdown
         else if (score >= maxScoreRocket && rocketShip.transform.position.y > -9)
@@ -116,11 +118,23 @@ public class StageManager : MonoBehaviour
             ender = false;
             currentCountdown = maxCountdown;
             rocketShip.transform.position = new Vector3(rocketShip.transform.position.x, rocketShip.transform.position.y - 0.01f, rocketShip.transform.position.z);
+            PlayGameMusic(0);
         }
         if (currentCountdown <= 0)
         {
-            
+
 
         }
+    }
+
+    private void PlayGameMusic(int index)
+    {
+        if (currentMusic != index)
+        {
+            currentMusic = index;
+            musicSource.Stop();
+            musicSource.clip = musicClips[index];
+            musicSource.Play();
+        } 
     }
 }
