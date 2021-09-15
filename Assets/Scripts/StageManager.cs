@@ -29,10 +29,8 @@ public class StageManager : MonoBehaviour
     //Current time in the countdown
     public float currentCountdown = 10;
 
-    //Background for score text
-    public Image scoreBack;
-    //Text to display the current score
-    public Text scoreText;
+    //Slider to track current environmental health
+    public GameObject slider;
     //Background for countdown text
     public Image CountBack;
     //Countdown text
@@ -57,7 +55,6 @@ public class StageManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        scoreText.text = "Score: 000";
         plots = GameObject.FindGameObjectsWithTag("Crop");
         int x = Random.Range(0, plots.Length);
         plots[x].GetComponent<Crop>().nextGrowthStage();
@@ -78,8 +75,10 @@ public class StageManager : MonoBehaviour
 
     public void updateScore()
     {
-        scoreText.text = "Score: " + score;
-        scoreText.color = new Color(1.0f, 1.0f, 1.0f);
+        Vector3 position = slider.transform.localPosition;
+        position.x = 384 * (score - 50) / 100;
+
+        slider.transform.localPosition = position;
     }
 
     //End the game (true == good end, false == bad end)
