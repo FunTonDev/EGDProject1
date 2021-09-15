@@ -110,10 +110,17 @@ public class PlayerController : MonoBehaviour
         }
 
         //Check if the player is grounded
-        RaycastHit2D groundCheck = Physics2D.Raycast(playerCollider.bounds.center + Vector3.down * playerCollider.bounds.size.y / 2, Vector3.down, Mathf.Infinity, 1 << 3);
         bool wasGrounded = grounded;
+        grounded = false;
+        for (int i = 0; i < 3; ++i) {
+            RaycastHit2D groundCheck = Physics2D.Raycast(playerCollider.bounds.center + Vector3.right * ((i - 1) * (playerCollider.bounds.extents.x - 0.2f)) + Vector3.down * playerCollider.bounds.size.y / 2, Vector3.down, Mathf.Infinity, 1 << 3);
 
-        grounded = groundCheck.collider != null && groundCheck.distance < 0.015f;
+            if (groundCheck.collider != null && groundCheck.distance < 0.015f) {
+                grounded = true;
+
+                break;
+            }
+        }
         if (grounded && !wasGrounded) {
             playerVelocity = new Vector2(playerVelocity.x, 0);
         }
