@@ -18,7 +18,7 @@ public class CinematicManager : MonoBehaviour
 
     void Start()
     {
-        introText.color = new Color(introText.color.r, introText.color.g, introText.color.b, 0);
+        introText.gameObject.SetActive(false);
         gameGuide.SetActive(false);
         continueButton.SetActive(false);
         switch(GameManager.cinematicChosen)
@@ -37,6 +37,8 @@ public class CinematicManager : MonoBehaviour
 
     private void IntroCinematic()
     {
+        introText.color = new Color(introText.color.r, introText.color.g, introText.color.b, 0);
+        introText.gameObject.SetActive(true);
         LoopPlayClip(mainSource, cinematicClips[0]);
 
         StartCoroutine(AnimationLoop(introSprites));
@@ -75,6 +77,7 @@ public class CinematicManager : MonoBehaviour
         {
             if (!gameGuide.activeInHierarchy)
             {
+                introText.gameObject.SetActive(false);
                 gameGuide.SetActive(true);
             }
             else
@@ -101,7 +104,7 @@ public class CinematicManager : MonoBehaviour
                 introText.text = "Our beautiful planet, our home, is dying.";
                 break;
             case 2:
-                introText.text = "After many years of overpopulation and depleting earth of its natural resources, the nations of the world have decided to come together to form a solution to this problem.";
+                introText.text = "After many years of overpopulation and depleting Earth of its natural resources, the nations of the world have decided to come together to form a solution to this problem.";
                 break;
             case 3:
                 introText.text = "The answer: the creation of a space botanical organization, dubbed Earth’s Natural Development Team(END).";
@@ -113,7 +116,7 @@ public class CinematicManager : MonoBehaviour
                 introText.text = "They enlist the help of you, the Gardener, to grow plants in efforts to save the world.";
                 break;
             case 6:
-                introText.text = "No pressure, right? Of course not; if the earth perishes then we just go to Mars and hope history doesn't repeat itself.";
+                introText.text = "No pressure, right? Of course not; if the Earth perishes then we just go to Mars and hope history doesn't repeat itself.";
                 break;
             case 7:
                 introText.text = "If all else fails, abandon ship, but do you really want to?";
