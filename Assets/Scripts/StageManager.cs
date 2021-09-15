@@ -79,6 +79,10 @@ public class StageManager : MonoBehaviour
         position.x = 384 * (score - 50) / 100;
 
         slider.transform.localPosition = position;
+        if (slider.transform.localPosition.x > 85)
+        {
+            slider.transform.localPosition = new Vector3(85, slider.transform.localPosition.y, slider.transform.localPosition.z);
+        }
     }
 
     //End the game (true == good end, false == bad end)
