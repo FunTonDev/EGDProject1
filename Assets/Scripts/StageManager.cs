@@ -29,10 +29,18 @@ public class StageManager : MonoBehaviour
     //Max amount of time countdown starts at
     public float maxCountdown = 10;
     //Current time in the countdown
-    private float currentCountdown = 10;
+    public float currentCountdown = 10;
 
+    //Background for score text
+    public Image scoreBack;
     //Text to display the current score
     public Text scoreText;
+    //Background for countdown text
+    public Image CountBack;
+    //Countdown text
+    public Text countDownText;
+    //Bool to show whether the countdown should begin or not
+    public bool ender;
     //Rocket Ship object
     public GameObject rocketShip;
     //UI image to fade out of the scene
@@ -65,6 +73,7 @@ public class StageManager : MonoBehaviour
         musicSource.clip = musicClips[0];
         musicSource.Play();
         currentPlantHealth = 0;
+        currentCountdown = maxCountdown = 10;
     }
 
     public void updateScore()
@@ -73,6 +82,7 @@ public class StageManager : MonoBehaviour
         scoreText.color = new Color(1.0f, 1.0f, 1.0f);
     }
 
+    //End the game (true == good end, false == bad end)
     public void stageEnd(bool status)
     {
         
@@ -84,18 +94,34 @@ public class StageManager : MonoBehaviour
     {
         score += Time.deltaTime * deltaScoreMultiplier * (currentPlantHealth - stablePlantHealth);
         updateScore();
+        if (ender && currentCountdown > 0)
+        {
+            currentCountdown -= Time.deltaTime;
+            countDownText.text = string.Format("Time until Blast Off: {0:#.00}",currentCountdown);
+        }
 
+        //If score is low enough, summon rocket and begin countdown
         if (score <= lessScoreRocket && rocketShip.transform.position.y < -1)
         {
+            ender = true;
+            countDownText.gameObject.SetActive(true);
+            CountBack.gameObject.SetActive(true);
+            leftBorder.GetComponent<BoxCollider2D>().enabled = false;
             rocketShip.transform.position = new Vector3(rocketShip.transform.position.x, rocketShip.transform.position.y + 0.01f, rocketShip.transform.position.z);
         }
+        //If score is high enough, remove rocket and stop countdown
         else if (score >= maxScoreRocket && rocketShip.transform.position.y > -9)
         {
+            ender = false;
+            currentCountdown = maxCountdown;
+            countDownText.gameObject.SetActive(false);
+            CountBack.gameObject.SetActive(false);
+            leftBorder.GetComponent<BoxCollider2D>().enabled = true;
             rocketShip.transform.position = new Vector3(rocketShip.transform.position.x, rocketShip.transform.position.y - 0.01f, rocketShip.transform.position.z);
         }
         if (currentCountdown <= 0)
         {
-            //End the stage (bad end)
+            
 
         }
     }

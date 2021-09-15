@@ -49,6 +49,7 @@ public class Crop : MonoBehaviour
         waterBarObj.transform.SetParent(canvas.transform);
         waterBarObj.transform.position = GetComponent<Transform>().position + Vector3.up * 1.0f;
         waterBar = waterBarObj.GetComponent<Image>();
+        waterBar.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
         hasCrop = false;
         updateStage(0);
@@ -67,8 +68,11 @@ public class Crop : MonoBehaviour
         hasCrop = true;
         if (cropLevel < 3) {
             updateStage(cropLevel + 1);
-        } else {
-            updateStage(cropLevel - 1);
+        }
+        else
+        {
+            if (cropLevel != 3)
+                updateStage(cropLevel - 1);
         }
         waterTimer = 10;
         waterBar.color = new Color(0.0f, 1.0f, 1.0f, 1.0f);
@@ -90,6 +94,8 @@ public class Crop : MonoBehaviour
         if (cropLevel < 3)
         {
             hasCrop = false;
+            if (cropLevel > 0)
+                cropLevel -= 1;
         }
         else
         {
